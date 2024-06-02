@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"time"
 
 	"github.com/malinoOS/malino/libmalino"
 )
@@ -9,18 +11,12 @@ import (
 func main() {
 	defer libmalino.ResetTerminalMode()
 	fmt.Println("Welcome to maura! The official tech-demo OS for malino!")
-	for { // Word of advice: Never let this app exit. Always end in an infinite loop or shutdown.
-		fmt.Print("\033[91m#\033[39m ")
-		input := libmalino.UserLine()
-		switch input {
-		case "ping":
-			fmt.Println("Pong!")
-		case "pong":
-			fmt.Println("Ping!")
-		case "stop":
-			libmalino.ShutdownComputer()
-		default:
-			fmt.Println("What?")
-		}
+	fmt.Println("Starting /bin/msh (maura shell)...")
+
+	if err := libmalino.SpawnProcess("/bin/msh", "/", []string{}, []uintptr{os.Stdout.Fd(), os.Stdin.Fd(), os.Stderr.Fd()}, true, true); err != nil {
+		fmt.Println("Error running /bin/msh: " + err.Error())
+		fmt.Println("The system will shut down in 15 seconds.")
+		time.Sleep(15 * time.Second)
 	}
+	libmalino.ShutdownComputer()
 }

@@ -1,4 +1,4 @@
-module maura
+module msh
 
 go 1.19
 
