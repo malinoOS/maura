@@ -8,9 +8,11 @@ import (
 	"github.com/malinoOS/malino/libmalino"
 )
 
+var Version string = "undefined"
+
 func main() {
 	defer libmalino.ResetTerminalMode()
-	fmt.Println("Welcome to maura! The official tech-demo OS for malino!")
+	fmt.Println("Welcome to maura v" + Version + "!")
 	fmt.Println("Starting /bin/msh (maura shell)...")
 
 	if err := libmalino.SpawnProcess("/bin/msh", "/", []string{"SHELL=/bin/msh", "USER=root"}, []uintptr{os.Stdout.Fd(), os.Stdin.Fd(), os.Stderr.Fd()}, true, true); err != nil {
