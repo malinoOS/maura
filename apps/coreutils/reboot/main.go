@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/malinoOS/malino/libmalino"
 
 func main() {
-	fmt.Println("There's no reboot function in libmalino yet, this will be fixed shortly.")
+	libmalino.RebootComputer()
 }
