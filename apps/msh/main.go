@@ -27,24 +27,12 @@ func main() {
 			fmt.Println("Pong!")
 		case "pong":
 			fmt.Println("Ping!")
+		case "exit":
+			os.Exit(0)
 		case "":
 			fmt.Println()
 		case "cd":
 			cd(cmd)
-		case "cat":
-			file := ""
-			if strings.HasPrefix(cmd[1], "/") {
-				file = cmd[1]
-			} else {
-				currentDir, _ := os.Getwd()
-				file = fmt.Sprintf("%v/%v", currentDir, cmd[1])
-			}
-			dat, err := os.ReadFile(file)
-			if err != nil {
-				fmt.Printf("cat: could not read file: %v\n", err)
-				os.Exit(1)
-			}
-			fmt.Println(string(dat))
 		default:
 			entries, err := os.ReadDir("/bin")
 			if err != nil {
@@ -63,7 +51,7 @@ func main() {
 				}
 			}
 			if !foundCmd {
-				fmt.Println("What?")
+				fmt.Println("")
 			}
 		}
 	}

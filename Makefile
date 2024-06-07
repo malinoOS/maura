@@ -1,7 +1,7 @@
 parentFolder := $(shell pwd)
 SHELL := /bin/bash
 
-.PHONY: all clean run iso apps
+.PHONY: all clean run iso apps prepare
 
 all: clean os-release apps run
 
@@ -10,6 +10,8 @@ clean:
 	then \
 		echo " RM /tmp/maura_msh" ; \
 		rm /tmp/maura_msh ; \
+		echo " RM /tmp/maura_cat" ; \
+		rm /tmp/maura_cat ; \
 		echo " RM /tmp/maura_echo" ; \
 		rm /tmp/maura_echo ; \
 		echo " RM /tmp/maura_ls" ; \

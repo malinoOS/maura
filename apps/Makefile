@@ -11,7 +11,13 @@ msh:
 	go mod tidy; \
 	go build -o /tmp/maura_msh -ldflags "-X main.Version=$(shell date +%y%m%d)"
 
-coreutils: echo ls reboot ps
+coreutils: cat echo ls reboot ps
+
+cat:
+	@echo " GO apps/coreutils/cat"
+	@cd $(parentFolder)/coreutils/cat; \
+	go mod tidy; \
+	go build -o /tmp/maura_cat -ldflags "-X main.Version=$(shell date +%y%m%d)"
 
 echo:
 	@echo " GO apps/coreutils/echo"

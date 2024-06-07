@@ -3,15 +3,35 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
+var Version string = "undefined"
+
 func main() {
-	currentDir, err := os.Getwd()
-	if err != nil {
-		fmt.Printf("ls: could not list directory: %v\n", err)
-		os.Exit(1)
+	dir := "/"
+	if len(os.Args) > 1 && os.Args[1] != "" {
+		if strings.HasPrefix(os.Args[1], "/") {
+			dir = os.Args[1]
+		} else if os.Args[1] == "-v" || os.Args[1] == "--version" {
+			fmt.Println("maura ls v" + Version)
+		} else {
+			var err error
+			dir, err = os.Getwd()
+			if err != nil {
+				fmt.Printf("ls: could not find current path: %v\n", err)
+				os.Exit(1)
+			}
+		}
+	} else {
+		var err error
+		dir, err = os.Getwd()
+		if err != nil {
+			fmt.Printf("ls: could not find current path: %v\n", err)
+			os.Exit(1)
+		}
 	}
-	entries, err := os.ReadDir(currentDir)
+	entries, err := os.ReadDir(dir)
 	if err != nil {
 		fmt.Printf("ls: could not list directory: %v\n", err)
 		os.Exit(1)
