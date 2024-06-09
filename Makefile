@@ -3,24 +3,15 @@ SHELL := /bin/bash
 
 .PHONY: all clean run iso apps prepare
 
-all: clean os-release apps run
+all: clean os-release apps run clean
 
 clean:
-	@-if [ -a /tmp/maura_ps ] ; \
+	@-if [ -a os-release.maura ] ; \
 	then \
-		echo " RM /tmp/maura_msh" ; \
-		rm /tmp/maura_msh ; \
-		echo " RM /tmp/maura_cat" ; \
-		rm /tmp/maura_cat ; \
-		echo " RM /tmp/maura_echo" ; \
-		rm /tmp/maura_echo ; \
-		echo " RM /tmp/maura_ls" ; \
-		rm /tmp/maura_ls ; \
-		echo " RM /tmp/maura_reboot" ; \
-		rm /tmp/maura_reboot ; \
-		echo " RM /tmp/maura_ps" ; \
-		rm /tmp/maura_ps ; \
+		echo " RM *.maura" ; \
+		rm *.maura ; \
 	fi;
+	@-rm maura.iso initramfs.cpio.gz
 
 prepare:
 	@echo " DL https://github.com/fastfetch-cli/fastfetch/releases/download/2.14.0/fastfetch-linux-amd64.tar.gz"
@@ -35,19 +26,18 @@ prepare:
 	@rm -r fastfetch-linux-amd64
 
 os-release:
-	@echo "  W /tmp/maura_os-release"
-	@printf "PRETTY_NAME=\"maura $(shell date +%y%m%d)\"\nNAME=\"maura malino/Linux\"\nVERSION_ID=\"$(shell date +%y%m%d)\"\nVERSION=\"v$(shell date +%y%m%d)\"\nVERSION_CODENAME=v$(shell date +%y%m%d)\nID=maura" > /tmp/maura_os-release
+	@echo "  W os-release.maura"
+	@printf "PRETTY_NAME=\"maura $(shell date +%y%m%d)\"\nNAME=\"maura malino/Linux\"\nVERSION_ID=\"$(shell date +%y%m%d)\"\nVERSION=\"v$(shell date +%y%m%d)\"\nVERSION_CODENAME=v$(shell date +%y%m%d)\nID=maura" > os-release.maura
 
 apps:
 ifeq (,$(wildcard ./fastfetch))
     $(error please run make prepare first)
 endif
-	cp ./fastfetch /tmp/maura_fastfetch
 	make -C apps/
 
 iso:
 	malino build
-	malino export -efi
+	malino export
 
 run:
 	malino build
