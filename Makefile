@@ -1,7 +1,7 @@
 parentFolder := $(shell pwd)
 SHELL := /bin/bash
 
-.PHONY: all clean run iso apps prepare
+.PHONY: all clean run apps prepare
 
 all: clean os-release apps run clean
 
@@ -34,10 +34,6 @@ ifeq (,$(wildcard ./fastfetch))
     $(error please run make prepare first)
 endif
 	make -C apps/
-
-iso:
-	malino build
-	malino export
 
 run:
 	malino build
