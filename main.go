@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/malinoOS/malino/libmalino"
@@ -30,7 +29,7 @@ func main() {
 
 	fmt.Println("Starting /bin/msh (maura shell)...")
 
-	if err := libmalino.SpawnProcess("/bin/msh", "/", []string{"SHELL=/bin/msh", "USER=root"}, []uintptr{os.Stdout.Fd(), os.Stdin.Fd(), os.Stderr.Fd()}, true, true); err != nil {
+	if _, err := libmalino.SpawnProcess("/bin/msh", "/", []string{"SHELL=/bin/msh", "USER=root"}, true, ""); err != nil {
 		mauraPanic(err, "running /bin/msh")
 	}
 	libmalino.ShutdownComputer()

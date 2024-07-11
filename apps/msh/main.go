@@ -44,8 +44,12 @@ func main() {
 				if !e.IsDir() {
 					if cmd[0] == e.Name() {
 						foundCmd = true
-						if err := libmalino.SpawnProcess("/bin/"+e.Name(), currentDir, []string{"SHELL=/bin/msh", "USER=root"}, []uintptr{os.Stdout.Fd(), os.Stdin.Fd(), os.Stderr.Fd()}, true, true, cmd[1:]...); err != nil {
+						ret, err := libmalino.SpawnProcess("/bin/"+e.Name(), currentDir, []string{"SHELL=/bin/msh", "USER=root"}, true, cmd[1:]...)
+						if err != nil {
 							fmt.Println("Error running /bin/" + e.Name() + ": " + err.Error())
+						}
+						if ret != 0 {
+							fmt.Printf("Program exited with code %v\n", ret)
 						}
 					}
 				}

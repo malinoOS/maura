@@ -30,9 +30,6 @@ os-release:
 	@printf "PRETTY_NAME=\"maura $(shell date +%y%m%d)\"\nNAME=\"maura malino/Linux\"\nVERSION_ID=\"$(shell date +%y%m%d)\"\nVERSION=\"v$(shell date +%y%m%d)\"\nVERSION_CODENAME=v$(shell date +%y%m%d)\nID=maura" > os-release.maura
 
 apps:
-ifeq (,$(wildcard ./fastfetch))
-    $(error please run make prepare first)
-endif
 	make -C apps/
 
 run:
